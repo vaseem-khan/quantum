@@ -1,0 +1,210 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>{{Keyword}}-Quantum Search</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="http://akshaytyagi.me/quantum/templates/css/bootstrap.min.css">
+	<style>
+	body {
+	  padding-top: 60px;
+	  padding-bottom: 40px;
+	}
+	</style>
+	<link rel="stylesheet" href="http://akshaytyagi.me/quantum/templates/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="http://akshaytyagi.me/quantum/templates/css/style.css">
+
+	<script src="http://akshaytyagi.me/quantum/templates/js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+    
+</head>
+<!--PYTHON result variables 
+
+
+	params["youtube"] youtube link
+		params["quora"]  quora link
+		params["freeDict"] free dictionary
+		duck duck go wiki part
+			params["duck_defination"] for defination
+			abstract
+			params["duck_related"] 
+			params["duck_image"] for image of first result
+
+
+
+		params["newsitems"] for google news 
+		params["youtube"] youtube link
+		params["quora"]  quora link
+		params["freeDict"] free dictionary
+
+		CrunchBase
+            params["cb_name"]=name
+            params["cb_url"]=homepage_url
+            params["cb_category"]=category_code
+        IMDB
+            params['imdb_title']=title
+            params['imdb_rating']=rating
+            params['imdb_runtime']=runtime
+            params['imdb_genres']=genres
+            params['imdb_year']=year
+            params['imdb_imdburl']=imdburl		
+        Facebook
+		    params['facebook_name']=term
+            params['facebook_image']=picture
+            params['facebook_url']=link
+            params['facebook_about']=about
+            params['facebook_likes']=likes
+		TechIRIS
+            params["ti_post0_title"]=post 0 title
+            params["ti_post0_url"]=post 0 url
+            params["ti_post1_title"]=post 1 title
+            params["ti_post1_title"]=post 1 url		
+		Twitter
+{{twitter1}}.{{twitter2}}		
+
+-->
+<body>
+<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+<div class="container">
+<div class="row-fluid">
+<div align="center">
+  
+    
+  <div class="span9" id="results-pane">
+    <form class="form-search">
+    <div class="input-append" style="width:100%;">
+  <input type="text" value="{{value}}" class="input-xxlarge search-query"><button class="btn" type="button"><i class="icon-search"></i></button>
+  </div>
+</form>
+
+<!-- results come here -->
+
+
+<div class="well" id="result-info">
+<h1>What? {% if duck_image %}
+	<img src="{{duck_image}}"/> 
+	
+{% endif %}
+
+</h1>
+{% if duck_defination %}
+	<b>{{duck_defination}}</b><br/>
+	
+{% endif %}
+{% if duck_abstract %}
+	<b>{{duck_abstract}}</b><br/>
+	
+{% endif %}
+{% for items in duck_related %}
+      {% if items %}
+        <b>{{ items }}</b> <br/>
+      
+      {% endif %}
+ 
+    {% endfor %}
+
+</div>
+
+{% if cb_name %}
+
+<div class="well" id="result-crunchbase"  style="background-color:#066">
+<h1>Crunchbase</h1>
+Company information for {{cb_name}}<br>
+Industry {{cb_category}}<br>
+<a href="{{cb_url}}">Official Site</a>
+</div>
+{% endif %}
+
+
+
+<div class="well" id="result-news">
+<h1>NEWS!!</h1>
+{% for item in newsitem %}
+      {% if item %}
+        <b>{{ item }}</b> <br/>
+      
+      {% endif %}
+ 
+    {% endfor %}
+</div>
+
+{% if imdb_title  and imdb_rating %}
+<div class="well" id="result-imdb"  style="background-color:#CC0">
+<h1>IMDB</h1>
+{{imdb_title}}
+{{imdb_rating}}
+{{imdb_runtime}}
+{{imdb_genres}}
+{{imdb_year}}
+{{imdb_url}}
+</div>
+{% endif %}
+
+
+
+ 
+<h1> search on <a href="{{youtube}}">Youtube</a> / <a href="{{quora}}">Quora</a></h1>
+
+</div><!-- results-pane -->
+
+
+ 
+  <div class="span3" id="options-pane">
+    <img src="http://akshaytyagi.me/quantum/templates/img/quantum.png" id="logo-results" /><br><br><br>
+    
+{% if facebook_url %}
+<div class="well" id="result-facebook" style="background-color:#3B5998">
+<a href="{{facebook_url}}"><h2>{{facebook_name}} on Facebook</h2></a>
+<div><img src="{{facebook_image}}"/></div>
+<div><p>About: {{facebook_about}}</p></div>
+<div><p>Likes: {{facebook_likes}}</p></div>
+ </div>
+{% endif %}
+
+{% if twitter1 %}
+<div class="well" id="result-twitter" style="background-color:#33ccff">
+<h1>Twitterati</h1>
+{{twitter1}}<br>
+{{twitter2}}<br>
+{{twitter3}}<br>
+{{twitter4}}<br>
+{{twitter5}}<br>
+</div>
+{% endif %}
+
+    </div> <!-- options-pane -->
+</div> <!-- what is this closing? Daya, pata lagayo. -->
+</div> <!-- ??? Do laashein? Lagta hai mujhe hi kuch karna padega. -->
+      <footer>
+      <hr>
+        <p align="right" style="color:#999;">Project quantum : a meta-meta contextual quantized searched engine. Or something.</p>
+      </footer>
+
+
+
+</div> <!-- center -->  
+</div> <!-- row -->
+</div> <!-- /container -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+
+<script src="http://akshaytyagi.me/quantum/templates/js/libs/bootstrap/bootstrap.min.js"></script>
+
+<script src="http://akshaytyagi.me/quantum/templates/js/script.js"></script>
+<script>
+	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+	s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+</body>
+</html>
