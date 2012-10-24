@@ -4,6 +4,7 @@ import cgi
 import json
 import jinja2
 import urllib2
+import re
 from google.appengine.ext import db
 
 opener = urllib2.build_opener()
@@ -89,7 +90,19 @@ def topic_summary(w):
                         params["duck_related"].append(d["RelatedTopics"][i]["Topics"][k]["Text"])
                     k+=1
     return params
-
+def html_to_text(data):        
+    # remove the newlines
+    data = data.replace("\n", " ")
+    data = data.replace("\r", " ")
+   
+    # replace consecutive spaces into a single one
+    data = " ".join(data.split())   
+   
+    # remove all the tags
+    p = re.compile(r'<[^<]*?>')
+    data = p.sub('', data)
+   
+    return data
 
 #CrunchBase
 def cb(term):
@@ -106,6 +119,7 @@ def cb(term):
         params["cb_name"]=None
         return None
     else:
+        params["cb_overview"]=(d['overview'])
         params["cb_name"]=d['name']
         params["cb_url"]=d['homepage_url']
         params["cb_category"]=d['category_code']
