@@ -89,7 +89,14 @@
 
 
 <div class="well" id="result-info">
-<h1>What? {% if duck_image %}
+
+<h1> 
+{% if gudies %}
+ </h1><h3>{{gudies}}</h3>
+{% else%}
+what?
+{% endif %}
+{% if duck_image %}
 	<img src="{{duck_image}}"/> 
 	
 {% endif %}
@@ -128,13 +135,26 @@ Industry {{cb_category}}<br/>
 
 <div class="well" id="result-news">
 <h1>NEWS!!</h1>
+<table>
+<tr>
 {% for item in newsitem %}
       {% if item %}
-        <b>{{ item }}</b> <br/>
+       <td> <b>{{ item }}</b> <br/></td>
       
       {% endif %}
  
     {% endfor %}
+</tr>
+<tr>
+{% for item in newslink %}
+      {% if item %}
+       <td><a href="{{ item }} ">...</a></td>
+      
+      {% endif %}
+ 
+    {% endfor %}
+</tr>		
+	</table>
 </div>
 
 {% if imdb_title  and imdb_rating %}

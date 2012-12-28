@@ -33,7 +33,7 @@ def topic_summary(w):
     params["Keyword"]=k
     l=k.lower()
     t=l.replace (" ", "+")        
-    link="http://api.duckduckgo.com/?q="+t+"&format=json&pretty=1"
+    link="http://api.duckduckgo.com/?q="+t+"&format=json&pretty=1&no_html=1"
     f=[]
     d=[]
     try:
@@ -44,6 +44,11 @@ def topic_summary(w):
         return None
 
     ret=""
+    if d["Answer"]!="":
+        params["gudies"]= d["Answer"]
+    else:
+        params["gudies"]= None
+        
     if d["Definition"]=="":
         params["duck_defination"]=None
     else:
@@ -289,8 +294,11 @@ def news(term):
     if len(l)>2:
         for i in xrange(2,len(l)):
             params["newsitem"].append(t[i])
-            params["newslink"].append(l[i])
-           
+            Istart=l[i].find("url=")
+            if Istart!=-1:
+                params["newslink"].append(l[i][Istart+4:])
+            if i==6:
+                break;
     return params
 
 
