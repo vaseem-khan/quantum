@@ -148,7 +148,7 @@ Industry {{cb_category}}<br/>
 <tr>
 {% for item in newslink %}
       {% if item %}
-       <td><a href="{{ item }} ">...</a></td>
+       <td><a href="{{ item }} ">...[.]</a></td>
       
       {% endif %}
  
@@ -157,17 +157,32 @@ Industry {{cb_category}}<br/>
 	</table>
 </div>
 
-{% if imdb_title  and imdb_rating %}
+
 <div class="well" id="result-imdb"  style="background-color:#CC0">
 <h1>IMDB</h1>
-{{imdb_title}}
-{{imdb_rating}}
-{{imdb_runtime}}
-{{imdb_genres}}
-{{imdb_year}}
-{{imdb_url}}
+
+	{{ imdb_Title }}
+	{{ imdb_Year }}
+	{{ imdb_Rated }}
+	{{ imdb_Released }}
+	{{ imdb_Runtime }}
+	{{ imdb_Genre }}
+	{{ imdb_Director }}
+	{{ imdb_Writer }}
+	{{ imdb_Actors }}
+	{{ imdb_Plot }}
+	{{ imdb_Language }}
+	{{ imdb_Country }}
+	{{ imdb_Awards }}
+	{{ imdb_Poster }}
+	{{ imdb_Metascore }}
+	{{ imdb_imdbRating }}
+	{{ imdb_imdbVotes }}
+	{{ imdb_imdbID }}
+	{{ imdb_Type }}
+
 </div>
-{% endif %}
+
 
 
 

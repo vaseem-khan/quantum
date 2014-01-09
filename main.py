@@ -155,33 +155,36 @@ def twit(term):
 #IMDB
 def imdb(term):
     term=term.replace(" ","+")
-    link="http://www.deanclatworthy.com/imdb/?q="+term
+    params={}
+    link="http://www.omdbapi.com/?t="+term
     try:
         req = urllib2.Request(link, None)
         f = opener.open(req)
-        d=json.load(f)        
-        if 'error' in d:
-            params['imdb_title']=None
-            return None
-        elif 'runtime' and 'year' not in d:
-            #return d['title']+"<br>"+d['rating']+"<br>"+d['genres']+"<br>"+d['imdburl']
-            params['imdb_title']=d['title']
-            params['imdb_rating']=d['rating']
-            params['imdb_genres']=d['genres']
-            params['imdb_imdburl']=d['imdburl']
-            return params
-        else:
-            #return d['title']+"<br>"+d['rating']+"<br>"+d['runtime']+"<br>"+d['genres']+"<br>"+d['year']+"<br>"+d['imdburl']
-            params['imdb_title']=d['title']
-            params['imdb_rating']=d['rating']
-            params['imdb_runtime']=d['runtime']
-            params['imdb_genres']=d['genres']
-            params['imdb_year']=d['year']
-            params['imdb_imdburl']=d['imdburl']
-            return params
+        imdb =json.load(f)
+        
+        params["imdb_Title"]=imdb["Title"]
+        params["imdb_Year"]=imdb["Year"]
+        params["imdb_Rated"]=imdb["Rated"]
+        params["imdb_Released"]=imdb["Released"]
+        params["imdb_Runtime"]=imdb["Runtime"]
+        params["imdb_Genre"]=imdb["Genre"]
+        params["imdb_Director"]=imdb["Director"]
+        params["imdb_Writer"]=imdb["Writer"]
+        params["imdb_Actors"]=imdb["Actors"]
+        params["imdb_Plot"]=imdb["Plot"]
+        params["imdb_Language"]=imdb["Language"]
+        params["imdb_Country"]=imdb["Country"]
+        params["imdb_Awards"]=imdb["Awards"]
+        params["imdb_Poster"]=imdb["Poster"]
+        params["imdb_Metascore"]=imdb["Metascore"]
+        params["imdb_imdbRating"]=imdb["imdbRating"]
+        params["imdb_imdbVotes"]=imdb["imdbVotes"]
+        params["imdb_imdbID"]=imdb["imdbID"]
+        params["imdb_Type"]=imdb["Type"]
+        return params
     except:
         params['imdb_title']=None
-        return None
+        return params
 
 #gmaps
 def gmaps(term):
@@ -334,7 +337,7 @@ class MainPage(BaseHandler):
         p2=cb(qs)
         p3=twit(qs)
         p4=imdb(qs)
-        img_url=gmaps(qs)
+        # img_url=gmaps(qs)
         p5=faceb(qs)
         p6=iris(qs)
         p7=fdictionary(qs)
@@ -353,8 +356,8 @@ class MainPage(BaseHandler):
         if p4:
             #self.write("<br><br><h1> Results IMDB</h1>"+p4)"""
         self.render('results.html', **params)
-        if img_url:
-            self.write('<br><br><h1> Results maps</h1>'+ '<img src="'+img_url+'" >')
+        # if img_url:
+        #     self.write('<br><br><h1> Results maps</h1>'+ '<img src="'+img_url+'" >')
         """if p5:
             self.write("<br><br><h1> Results Fb</h1>"+p5)
             self.render('results.html', **fbparams)
