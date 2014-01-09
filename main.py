@@ -161,7 +161,7 @@ def imdb(term):
         req = urllib2.Request(link, None)
         f = opener.open(req)
         imdb =json.load(f)
-        
+
         params["imdb_Title"]=imdb["Title"]
         params["imdb_Year"]=imdb["Year"]
         params["imdb_Rated"]=imdb["Rated"]
@@ -316,13 +316,28 @@ def quora(w):
 
 
 #Youtube
-def youtube(w):
-    k=str(w)
-    l=k.lower()
-    t=l.replace (" ", "+")
-    params["youtube"]="http://www.youtube.com/results?search_query="+t
-    #return "http://www.youtube.com/results?search_query="+t
-    return params
+def youtube(term):
+    term=term.replace(" ","+")
+    params={}
+    params["yt"]=[]
+    link="https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=AIzaSyCJoYbm7RWiP4uEp5wlKp2WN7ptQ2F2z_g&q="+term
+    try:
+        req = urllib2.Request(link, None)
+        f = opener.open(req)
+        yt =json.load(f)
+
+        for it in yt["items"]:
+            vid={}
+            vid["id"]=it["id"]["videoId"]
+            vid["title"]=it["snippet"]["title"]
+            vid["time"]=it["snippet"]["publishedAt"]
+            vid["description"]=it["snippet"]["description"]
+            vid["thumbnails"]=it["snippet"]["thumbnails"]["medium"]["url"]
+            params["yt"].append(vid)
+        return params
+    except:
+        params["yt"]=None
+        return params;
     
 class MainPage(BaseHandler):
     def get(self):
