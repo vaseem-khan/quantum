@@ -155,7 +155,6 @@ def twit(term):
 #IMDB
 def imdb(term):
     term=term.replace(" ","+")
-    params={}
     link="http://www.omdbapi.com/?t="+term
     try:
         req = urllib2.Request(link, None)
@@ -318,7 +317,6 @@ def quora(w):
 #Youtube
 def youtube(term):
     term=term.replace(" ","+")
-    params={}
     params["yt"]=[]
     link="https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&key=AIzaSyCJoYbm7RWiP4uEp5wlKp2WN7ptQ2F2z_g&q="+term
     try:
@@ -337,7 +335,7 @@ def youtube(term):
         return params
     except:
         params["yt"]=None
-        return params;
+        return None;
     
 class MainPage(BaseHandler):
     def get(self):
@@ -386,9 +384,9 @@ class MainPage(BaseHandler):
             self.write('<br><h3>search on youtube <a href="'+p9+'">'+q+'</a><h3>')"""
         
 
-        if not p and not p2 and not p3 and not p4 and not img_url and not p5 and not p6 and not p7 and not p8 and not p9:
-            params['error_q']="That's not a valid term!"
-            self.render('search-form.html', **params)    
+        # if not p and not p2 and not p3 and not p4 and not img_url and not p5 and not p6 and not p7 and not p8 and not p9:
+        #     params['error_q']="That's not a valid term!"
+        #     self.render('search-form.html', **params)    
 
         
 app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
