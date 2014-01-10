@@ -155,12 +155,19 @@ def twit(term):
 #IMDB
 def imdb(term):
     term=term.replace(" ","+")
-    link="http://www.omdbapi.com/?t="+term
+    link="http://www.omdbapi.com/?s="+term
     try:
         req = urllib2.Request(link, None)
         f = opener.open(req)
+        lis =json.load(f)
+        links=[]
+        for i in lis["Search"]:
+            if i["imdbID"]:
+                 links.append("http://www.omdbapi.com/?i="+i["imdbID"])
+        link=links[0]
+        req = urllib2.Request(link, None)
+        f = opener.open(req)
         imdb =json.load(f)
-
         params["imdb_Title"]=imdb["Title"]
         params["imdb_Year"]=imdb["Year"]
         params["imdb_Rated"]=imdb["Rated"]
