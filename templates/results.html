@@ -7,70 +7,27 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<title>{{Keyword}}-Quantum Search</title>
+	<title>{{Keyword}} Quantum Search</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
 	<meta name="viewport" content="width=device-width">
 
-	<link rel="stylesheet" href="http://akshaytyagi.me/quantum/templates/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://rawgithub.com/vaseem-khan/quantum/master/templates/css/bootstrap.min.css">
 	<style>
 	body {
 	  padding-top: 60px;
-	  padding-bottom: 40px;
+	  padding-bottom: 10px;
 	}
 	</style>
-	<link rel="stylesheet" href="http://akshaytyagi.me/quantum/templates/css/bootstrap-responsive.min.css">
-	<link rel="stylesheet" href="http://akshaytyagi.me/quantum/templates/css/style.css">
+	<link rel="stylesheet" href="https://rawgithub.com/vaseem-khan/quantum/master/templates/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="https://rawgithub.com/vaseem-khan/quantum/master/templates/css/style.css">
 
-	<script src="http://akshaytyagi.me/quantum/templates/js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+	<script src="https://rawgithub.com/vaseem-khan/quantum/master/templates/js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
+	
     
 </head>
-<!--PYTHON result variables 
 
-
-	params["youtube"] youtube link
-		params["quora"]  quora link
-		params["freeDict"] free dictionary
-		duck duck go wiki part
-			params["duck_defination"] for defination
-			abstract
-			params["duck_related"] 
-			params["duck_image"] for image of first result
-
-
-
-		params["newsitems"] for google news 
-		params["youtube"] youtube link
-		params["quora"]  quora link
-		params["freeDict"] free dictionary
-
-		CrunchBase
-            params["cb_name"]=name
-            params["cb_url"]=homepage_url
-            params["cb_category"]=category_code
-        IMDB
-            params['imdb_title']=title
-            params['imdb_rating']=rating
-            params['imdb_runtime']=runtime
-            params['imdb_genres']=genres
-            params['imdb_year']=year
-            params['imdb_imdburl']=imdburl		
-        Facebook
-		    params['facebook_name']=term
-            params['facebook_image']=picture
-            params['facebook_url']=link
-            params['facebook_about']=about
-            params['facebook_likes']=likes
-		TechIRIS
-            params["ti_post0_title"]=post 0 title
-            params["ti_post0_url"]=post 0 url
-            params["ti_post1_title"]=post 1 title
-            params["ti_post1_title"]=post 1 url		
-		Twitter
-{{twitter1}}.{{twitter2}}		
-
--->
 <body>
 <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
 <div class="container">
@@ -78,134 +35,191 @@
 <div align="center">
   
     
-  <div class="span9" id="results-pane">
-    <form class="form-search">
-    <div class="input-append" style="width:100%;">
-  <input type="text" value="{{value}}" class="input-xxlarge search-query"><button class="btn" type="button"><i class="icon-search"></i></button>
-  </div>
-</form>
+<div class="span9" id="results-pane">
+		<form class="form-search">
+			<div class="input-append" style="width:100%;">
+				<input type="text" value="{{Keyword}}" class="input-xxlarge search-query"><button class="btn" type="button"><i class="icon-search"></i></button>
+			</div>
+		</form>
 
-<!-- results come here -->
+	<!-- results come here -->
+
+	{#
+	{% if error_ %}
+		<h3>
+			{{error_}}
+		</h3>
 
 
-<div class="well" id="result-info">
+	{% else %}
+	#}
+		<div class="well" id="result-info">
+			<h1>
+				What is {{Keyword}}
+		 	</h1>
+			{% if duck_Definition %}
+				<b>
+					Definition :
+				</b>
+				{{duck_Definition}}
+				
+				{% if duck_DefinitionSource %}
+					<a href="{{duck_DefinitionURL}}" target="_blank"> src: {{duck_DefinitionSource}}</a>
+					
+				{% endif %}
+			{% endif %} 
 
-<h1> 
-{% if gudies %}
- </h1><h3>{{gudies}}</h3>
-{% else%}
-what?
-{% endif %}
-{% if duck_image %}
-	<img src="{{duck_image}}"/> 
+			
+			{% if duck_Abstract %}
+				<br/>
+				<b>
+					Abstract :
+				</b>
+				{{duck_Abstract}}
+				
+				{% if duck_AbstractSource %}
+					<a href="{{duck_AbstractURL}}" target="_blank">src: {{duck_AbstractSource}}</a>
+					<br/>
+				{% endif %}
+			{% endif %} 
+
+			
+			{% if RelatedTopics %}
+				{% for topic in RelatedTopics %}
+					{% if topic.type %}
+						<hr/>
+			        	<b>
+			        		{{ topic.type }}<br/>
+			        	</b> 
+					{% endif %}
+				
+
+					{% for key in topic.lis %}
+						{{key.Text}}<br/>
+					{% endfor %}				
+			    {% endfor %}
+		    {% endif %}
+
+		</div>
+	{#{% endif %}#}
+
+	{% if wiki_ %}
+
+		<div class="well" id="result-crunchbase"  style="background-color:rgba(0, 102, 102, 0.32)">
+			<h2>
+				Wiki Extract
+			</h2>
+		{{wiki_}}
+		</div>
+	{% endif %}
+
+	{% if yt %}
+		<div class="well" id="result-twitter" style="background-color:rgba(51, 204, 255, 0.24)">
+			<h1>
+				Youtube
+			</h1>
+			{% for item in yt %}
+				<hr/>
+				<a href="http://www.youtube.com/watch?v={{ item.id }}" target="_blank">
+			       	{{ item.title }} </br>
+			        <img src="{{ item.thumbnails }}"/> 
+			    </a> 
+			    <br/>
+			    {{ item.description }} <br/>
+			    Uploaded on {{ item.time }}
+			      
+		    {% endfor %}
+		</div>
+	{% endif %}
+
+
+
+	{% if cb_name %}
+
+		<div class="well" id="result-crunchbase"  style="background-color:rgba(0, 102, 102, 0.32)">
+			<h2>
+				Company information for {{cb_name}}
+			</h2>
+			<a href="{{cb_homeurl}}" target="_blank">Official Site</a><br/>
+			Industry {{cb_category}}<br/>
+			{{cb_overview}}<br/>
+
+			<a href="{{cb_url}} " target="_blank">More on crunchbase </a>
+		</div>
+	{% endif %}
+
 	
-{% endif %}
+	{% if imdb %}
+		<div class="well" id="result-imdb"  style="background-color:rgba(156, 156, 42, 0.75)">
+			<h1>IMDB </h1>
+			{% for mov in imdb %}
+				<hr/>
+				<a href="http://www.imdb.com/title/{{ mov.imdbID }}" target="_blank">
+					<h3>
+						{{ mov.Title }} {{ mov.Year }}
+					</h3>
+				</a>
 
-</h1>
-{% if duck_defination %}
-	<b>{{duck_defination}}</b><br/>
-	
-{% endif %}
-{% if duck_abstract %}
-	<b>{{duck_abstract}}</b><br/>
-	
-{% endif %}
-{% for items in duck_related %}
-      {% if items %}
-        <b>{{ items }}</b> <br/>
-      
-      {% endif %}
- 
-    {% endfor %}
+				Rating:
+				<b>
+					{{ mov.imdbRating }}
+				</b>
 
-</div>
+				<br/>
+				{%if mov.Poster != "N/A" %}
+					<img src="{{ mov.Poster }}"/>
+					<br/> 
+				{% endif %}
+				{{ mov.Plot }}
+				{{ mov.Released }} 
+				{{ mov.Type }}<br/>
+				{{ mov.Runtime }}
+				{{ mov.Genre }}<br/>
+				Director: {{ mov.Director }}<br/>
+				Writer: {{ mov.Writer }}<br/>
+				Actor: {{ mov.Actors }} <br/>
+				
+				Language:{{ mov.Language }}<br/>
+				Country:{{ mov.Country }}
+				Awards:{{ mov.Awards }}
+				<!-- {{ mov.Metascore }}
+				{{ mov.Rated }}
+				{{ mov.imdbVotes }} -->
+			{% endfor %}
+		</div>
+	{% endif %}
 
-{% if cb_name %}
-
-<div class="well" id="result-crunchbase"  style="background-color:#066">
-<h1>Crunchbase</h1>
-Company information for {{cb_name}}<br/>
-{{cb_overview}}<br/>
-Industry {{cb_category}}<br/>
-<a href="{{cb_url}}">Official Site</a>
-</div>
-{% endif %}
-
-
-
-<div class="well" id="result-news">
-<h1>NEWS!!</h1>
-<table>
-<tr>
-{% for item in newsitem %}
-      {% if item %}
-       <td> <b>{{ item }}</b> <br/></td>
-      
-      {% endif %}
- 
-    {% endfor %}
-</tr>
-<tr>
-{% for item in newslink %}
-      {% if item %}
-       <td><a href="{{ item }} ">...[.]</a></td>
-      
-      {% endif %}
- 
-    {% endfor %}
-</tr>		
-	</table>
-</div>
-
-
-<div class="well" id="result-imdb"  style="background-color:#CC0">
-<h1>IMDB</h1>
-
-	{{ imdb_Title }}
-	{{ imdb_Year }}
-	{{ imdb_Rated }}
-	{{ imdb_Released }}
-	{{ imdb_Runtime }}
-	{{ imdb_Genre }}
-	{{ imdb_Director }}
-	{{ imdb_Writer }}
-	{{ imdb_Actors }}
-	{{ imdb_Plot }}
-	{{ imdb_Language }}
-	{{ imdb_Country }}
-	{{ imdb_Awards }}
-	{{ imdb_Poster }}
-	{{ imdb_Metascore }}
-	{{ imdb_imdbRating }}
-	{{ imdb_imdbVotes }}
-	{{ imdb_imdbID }}
-	{{ imdb_Type }}
-
-</div>
-
-
-
-
- 
-<h1> search on <a href="{{youtube}}">Youtube</a> / <a href="{{quora}}">Quora</a></h1>
 
 </div><!-- results-pane -->
 
-
- 
-  <div class="span3" id="options-pane">
-    <img src="http://akshaytyagi.me/quantum/templates/img/quantum.png" id="logo-results" /><br><br><br>
+ <div class="span3" id="options-pane">
+    <img src="https://rawgithub.com/vaseem-khan/quantum/master/templates/img/quantum.png" id="logo-results" /><br><br>
     
 {% if facebook_url %}
-<div class="well" id="result-facebook" style="background-color:#3B5998">
-<a href="{{facebook_url}}"><h2>{{facebook_name}} on Facebook</h2></a>
-<div><img src="{{facebook_image}}"/></div>
-<div><p>About: {{facebook_about}}</p></div>
-<div><p>Likes: {{facebook_likes}}</p></div>
- </div>
+	<div class="well" id="result-facebook" style="background-color:#3B5998">
+		<a href="{{facebook_url}}"><h2>{{facebook_name}} on Facebook</h2></a>
+		<img src="{{facebook_image}}"/>
+		<p>About: {{facebook_about}}</p>
+		<p>Likes: {{facebook_likes}}</p>
+	 </div>
 {% endif %}
 
-{% if twitter1 %}
+{% if newsitem %}
+	<div class="well" id="result-news" style="background-color: beige;">
+		<h1>NEWS!!</h1>
+
+		{% for item in newsitem %}
+			{% if item %}
+		      	<hr/>
+		      	<b>{{ item.content }} </b><a href="{{ item.link }}"  target="_blank">[link..]</a>
+		    {% endif %}	  
+		{% endfor %}
+	</div>
+{% endif %}
+
+	
+
+<!-- {% if twitter1 %}
 <div class="well" id="result-twitter" style="background-color:#33ccff">
 <h1>Twitterati</h1>
 {{twitter1}}<br>
@@ -214,14 +228,16 @@ Industry {{cb_category}}<br/>
 {{twitter4}}<br>
 {{twitter5}}<br>
 </div>
-{% endif %}
+{% endif %} -->
 
     </div> <!-- options-pane -->
 </div> <!-- what is this closing? Daya, pata lagayo. -->
 </div> <!-- ??? Do laashein? Lagta hai mujhe hi kuch karna padega. -->
       <footer>
       <hr>
-        <p align="right" style="color:#999;">Project quantum : a meta-meta contextual quantized searched engine. Or something.</p>
+        <p align="center" style="color:#999">Project quantum : a meta-meta contextual quantized searched engine. Or something.<br><a href="https://github.com/vaseem-khan?tab=repositories" target="_blank">
+						<img width="32" height="32" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNTE3OEEyQTk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNTE3OEEyQjk5QTAxMUUyOUExNUJDMTA0NkE4OTA0RCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkU1MTc4QTI4OTlBMDExRTI5QTE1QkMxMDQ2QTg5MDREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkU1MTc4QTI5OTlBMDExRTI5QTE1QkMxMDQ2QTg5MDREIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+m4QGuQAAAyRJREFUeNrEl21ojWEYx895TDPbMNlBK46IUiNmPvHBSUjaqc0H8pF5+aDUKPEBqU2NhRQpX5Rv5jWlDIWlMCv7MMSWsWwmb3tpXub4XXWdPHvc9/Gc41nu+nedc7/8r/99PffLdYdDPsvkwsgkTBwsA/PADJCnzX2gHTwBt8Hl7p537/3whn04XoDZDcpBlk+9P8AFcAghzRkJwPF4zGGw0Y9QS0mAM2AnQj77FqCzrtcwB1Hk81SYojHK4DyGuQ6mhIIrBWB9Xm7ug/6B/nZrBHBegrkFxoVGpnwBMSLR9EcEcC4qb8pP14BWcBcUgewMnF3T34VqhWMFkThLJAalwnENOAKiHpJq1FZgI2AT6HZtuxZwR9GidSHtI30jOrbawxlVX78/AbNfhHlomEUJJI89O2MqeE79T8/nk8nMBm/dK576hZgmA3cp/R4l9/UeSxiHLVIlNm4nFfT0bxyuIj7LHRTKai+zdJobwMKzcZSJb0ePV5PKN+BqAAKE47UlMnERELMM3EdYP/yrd+XYb2mOiYBiQ8OQnoRBlXrl9JZix7D1pHTazu4MoyBcnYamqAjIMTR8G4FT8LuhLsexXYYjICBiqhQBvYb6fLZIJCjPypVvaOoVAW2WcasCnL2Nq82xHJNSqlCeFcDshaPK0twkAhosjZL31QYw+1rlMpWGMArl23SBsZZO58F2tlJXmjOXS+s4WGvpMiBJT/I2PInZ6lIs9/hBsNS1hS6BG0DSqmYEDRlCXQrmy50P1oDRKTSegmNbUsA0zDMwRhPJXeCE3vWLPQMvan6X8AgIa1vcR4AkGZkDR4ejJ1UHpsaVI0g2LInpOsNFUud1rhxSV+fzC9Woz2EZkWQuja7/B+jUrgtIMpy9YCW4n4K41YfzRneW5E1KJTe4B2Zq1Q5EHEtj4U3AfEzR5SVY4l7QYQPJdN2as7RKBF0BPZqqH4VgMAMBL8Byxr7y8zCZiDlnOcEKIPmUpgB5Z2ww5RdOiiRiNajUmWda5IG6WbhsyY2fx6m8gLcoJDJFkH219M3We1+cnda93pfycZpIJEL/s/wSYADmOAwAQgdpBAAAAABJRU5ErkJggg==" />
+						Fork on Github</a></p>
       </footer>
 
 
@@ -232,9 +248,9 @@ Industry {{cb_category}}<br/>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
 
-<script src="http://akshaytyagi.me/quantum/templates/js/libs/bootstrap/bootstrap.min.js"></script>
+<script src="https://rawgithub.com/vaseem-khan/quantum/master/templates/js/libs/bootstrap/bootstrap.min.js"></script>
 
-<script src="http://akshaytyagi.me/quantum/templates/js/script.js"></script>
+<script src="https://rawgithub.com/vaseem-khan/quantum/master/templates/js/script.js"></script>
 <script>
 	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
 	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
